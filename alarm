@@ -9,6 +9,8 @@ info >> $LOGFILE
 set -o nounset
 set -e
 
+# See https://gist.github.com/rjpgt/206e531f50140956d0a54cc3c96c70d7
+# for the functions colr, italic, etc.
 if [ $# -lt 1 ]; then
     echo -e "$(colr 'Usage:' a3be88)$(bold alarm [-s] t [msg])";
     echo -e "$(italic where) $(uline t) $(italic is the minutes from the current time)"

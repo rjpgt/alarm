@@ -1,0 +1,23 @@
+#!/bin/bash
+# to be used with the script alarm
+# https://www.linuxjournal.com/content/using-named-pipes-fifos-bash
+
+pipe=/tmp/alarm_task_1_$1
+
+trap "rm -f $pipe" EXIT
+
+mkfifo $pipe
+# opening pipe for read+write does not block
+exec 189<>$pipe
+
+while :
+do
+    if read -t 1 line <${pipe}; then
+        break
+    else
+        for n in C Db E F G G# B C5 C5 B G# G F E Db C;
+        do
+            play -q -n synth 0.4 pluck $n;
+        done
+    fi
+done

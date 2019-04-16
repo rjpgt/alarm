@@ -1,0 +1,56 @@
+#!/bin/bash
+# Usage: alarm [-s] t [msg],
+# where t is the minutes from the current time
+# or a specific time such as 9:30, 21:30, 9:30pm, 4am etc,
+# and msg is the optional message to be shown.
+
+. ${HOME}/bin/cols_and_styles;
+info >> $LOGFILE
+set -o nounset
+set -e
+
+if [ $# -lt 1 ]; then
+    echo -e "$(colr 'Usage:' a3be88)$(bold alarm [-s] t [msg])";
+    echo -e "$(italic where) $(uline t) $(italic is the minutes from the current time)"
+    echo -e "$(italic or a specific time such as 9:30, 21:30, 9:30pm, 4am etc,)"
+    echo -e "$(italic and) $(uline msg) $(italic is the optional message to be shown.)"
+    echo -e "$(italic The -s option is for a silent alarm.)"
+    echo -e "$(colr 'Example 1: alarm 30' a3be88)$(italic -- alarm 30 minutes from now)"
+    echo -e "$(colr 'Example 2: alarm 10:30am "Turn off the stove"' a3be88)$(italic -- alarm at 10:30 am with message)"
+    exit 1;
+fi
+
+
+#alarm_tasks="ting;notify-send -u critical 'ATTENTION' 'Time Up'"
+task_2="DISPLAY=:0.0 /home/jarav/bin/alarmdir/lightAlarm $$ &"
+tasks=("${task_2}")
+if [[ $1 = "-s" ]]
+then
+    shift
+else
+    task_1="/home/jarav/bin/alarmdir/soundAlarm $$ &"
+    tasks=("${task_1}" "${tasks[@]}")
+fi;
+
+task_3="DISPLAY=:0.0 /home/jarav/bin/alarmdir/alarmDlg $$ \"${2:-TIME UP}\""
+tasks=("${tasks[@]}" "${task_3}")
+
+if pgrep atd > /dev/null
+then
+    if [[ $1 = *":"* ]] || [[ $1 = *"pm"* ]] || [[ $1 = *"am"* ]]
+    then
+        atArg=$1;
+        boxArg="Alarm at $1";
+    else
+        atArg="now + $1 minutes";
+        boxArg="Alarm in $1 minutes";
+    fi;
+    for i in ${!tasks[@]}
+    do
+        at "$atArg" <<< ${tasks[$i]} >> $LOGFILE 2>&1;
+    done
+    box "$boxArg" "" "";
+else
+    error "Please start the atd service before running this program."
+fi;
+

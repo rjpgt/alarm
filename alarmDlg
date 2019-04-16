@@ -1,0 +1,10 @@
+#!/bin/bash
+# to be used with the script alarm
+
+title=ATTENTION
+text="<span font='32'>⏰</span>\n\n
+<span foreground='blue' font='Black Jack 32'>${2}</span>\n\n
+<span font='32'>⏰</span>"
+zenity --info --width=100 --no-wrap --title="$title" --text="$text" 2>/dev/null;
+echo 1 >/tmp/alarm_task_1_$1;
+echo 1 >/tmp/alarm_task_2_$1;

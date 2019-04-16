@@ -1,0 +1,24 @@
+#!/bin/bash
+# to be used with the script alarm
+# https://www.linuxjournal.com/content/using-named-pipes-fifos-bash
+
+pipe=/tmp/alarm_task_2_$1
+
+trap "xset -led 3;rm -f $pipe" EXIT
+
+mkfifo $pipe
+# opening pipe for read+write does not block
+exec 189<>$pipe
+
+cmds=("xset led 3" "xset -led 3")
+i=0
+while :
+do
+    if read -t 0.3 line <${pipe}; then
+        break
+    else
+        # choose alternately from cmds array
+        ${cmds[((i % 2))]};
+        ((i = i + 1));
+    fi;
+done

@@ -23,17 +23,19 @@ if [ $# -lt 1 ]; then
 fi
 
 
-#alarm_tasks="ting;notify-send -u critical 'ATTENTION' 'Time Up'"
+# Replace path to lightAlarm below with your own path to it
 task_2="DISPLAY=:0.0 /home/jarav/bin/alarmdir/lightAlarm $$ &"
 tasks=("${task_2}")
 if [[ $1 = "-s" ]]
 then
     shift
 else
+    # Replace path to soundAlarm below with your own path to it
     task_1="/home/jarav/bin/alarmdir/soundAlarm $$ &"
     tasks=("${task_1}" "${tasks[@]}")
 fi;
 
+# Replace path to alarmDlg below with your own path to it
 task_3="DISPLAY=:0.0 /home/jarav/bin/alarmdir/alarmDlg $$ \"${2:-TIME UP}\""
 tasks=("${tasks[@]}" "${task_3}")
 

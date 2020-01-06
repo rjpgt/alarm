@@ -17,7 +17,7 @@ do
     else
         for n in C Db E F G G# B C5 C5 B G# G F E Db C;
         do
-            play -q -n synth 0.4 pluck $n;
+            play -q -n -t alsa synth 0.4 pluck $n;
         done
     fi
 done

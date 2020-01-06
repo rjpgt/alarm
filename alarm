@@ -24,7 +24,7 @@ fi
 
 
 # Replace path to lightAlarm below with your own path to it
-task_2="DISPLAY=:0.0 /home/jarav/bin/alarmdir/lightAlarm $$ &"
+task_2="DISPLAY=$DISPLAY /home/jarav/bin/alarmdir/lightAlarm $$ &"
 tasks=("${task_2}")
 if [[ $1 = "-s" ]]
 then
@@ -36,7 +36,7 @@ else
 fi;
 
 # Replace path to alarmDlg below with your own path to it
-task_3="DISPLAY=:0.0 /home/jarav/bin/alarmdir/alarmDlg $$ \"${2:-TIME UP}\""
+task_3="DISPLAY=$DISPLAY /home/jarav/bin/alarmdir/alarmDlg $$ \"${2:-TIME UP}\""
 tasks=("${tasks[@]}" "${task_3}")
 
 if pgrep atd > /dev/null

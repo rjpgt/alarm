@@ -12,13 +12,13 @@ set -e
 # See https://gist.github.com/rjpgt/206e531f50140956d0a54cc3c96c70d7
 # for the functions colr, italic, etc.
 if [ $# -lt 1 ]; then
-    echo -e "$(colr 'Usage:' a3be88)$(bold alarm [-s] t [msg])";
+    echo -e "$(colr a3be88 'Usage:')$(bold alarm [-s] t [msg])";
     echo -e "$(italic where) $(uline t) $(italic is the minutes from the current time)"
     echo -e "$(italic or a specific time such as 9:30, 21:30, 9:30pm, 4am etc,)"
     echo -e "$(italic and) $(uline msg) $(italic is the optional message to be shown.)"
     echo -e "$(italic The -s option is for a silent alarm.)"
-    echo -e "$(colr 'Example 1: alarm 30' a3be88)$(italic -- alarm 30 minutes from now)"
-    echo -e "$(colr 'Example 2: alarm 10:30am "Turn off the stove"' a3be88)$(italic -- alarm at 10:30 am with message)"
+    echo -e "$(colr a3be88 'Example 1: alarm 30')$(italic -- alarm 30 minutes from now)"
+    echo -e "$(colr a3be88 'Example 2: alarm 10:30am "Turn off the stove"')$(italic -- alarm at 10:30 am with message)"
     exit 1;
 fi
 
